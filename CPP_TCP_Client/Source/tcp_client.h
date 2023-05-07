@@ -26,7 +26,6 @@
 #endif
 #include <map>							// Error enum to strings.
 #include <string>						// Strings
-#include <cstring>						// Memcpy
 #include <regex>						// Regular expression for ip validation
 //
 //	Defines:
@@ -52,6 +51,7 @@ namespace Essentials
 			std::to_string((uint8_t)TCP_CLIENT_VERSION_PATCH) + " - b" +
 			std::to_string((uint8_t)TCP_CLIENT_VERSION_BUILD) + ".\n";
 
+		/// <summary>enum for error codes</summary>
 		enum class TcpClientError : uint8_t
 		{
 			NONE,
@@ -70,6 +70,7 @@ namespace Essentials
 			READ_FAILED,
 		};
 
+		/// <summary>Error enum to string map</summary>
 		static std::map<TcpClientError, std::string> TcpClientErrorMap
 		{
 			{TcpClientError::NONE,
@@ -100,6 +101,7 @@ namespace Essentials
 			std::string("Error Code " + std::to_string((uint8_t)TcpClientError::READ_FAILED) + ": Read failed.")},
 		};
 
+		/// <summary>A class to handle multi-platform connections to a TCP server.</summary>
 		class TCP_Client
 		{
 		public:
