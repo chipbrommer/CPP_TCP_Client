@@ -34,7 +34,7 @@ namespace Essentials
 #ifdef WIN32
 			mWsaData = {};
 			mSocket = INVALID_SOCKET;
-#elif __linux__
+#else
 			mSocket = -1;
 #endif
 		}
@@ -125,7 +125,7 @@ namespace Essentials
 				WSACleanup();
 				return 1;
 			}
-#elif __linux__
+#else
 			mSocket = socket(AF_INET, SOCK_STREAM, 0);
 
 			if (mSocket == -1)

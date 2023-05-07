@@ -19,7 +19,7 @@
 #include <stdint.h>						// Standard integer types
 #include <ws2tcpip.h>
 #pragma comment(lib, "ws2_32.lib")
-#elif defined __linux__
+#else
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <unistd.h>
@@ -163,7 +163,7 @@ namespace Essentials
 #ifdef WIN32
 			WSADATA				mWsaData;
 			SOCKET				mSocket;
-#elif __linux__
+#else
 			int32_t				mSocket;
 #endif
 		};
