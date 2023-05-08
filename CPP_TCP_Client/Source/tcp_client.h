@@ -155,9 +155,9 @@ namespace Essentials
 
 			// Variables
 			std::string			mAddress;
-			uint16_t			mPort;
+			int16_t				mPort;
 			std::string			mTitle;
-			bool				mConnected;
+			bool				mConnected;			
 			TcpClientError		mLastError;			// Last error for this utility
 
 #ifdef WIN32
