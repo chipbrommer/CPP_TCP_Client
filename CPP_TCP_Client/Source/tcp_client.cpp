@@ -58,6 +58,17 @@ namespace Essentials
 			{
 				mLastError = TcpClientError::BAD_PORT;
 			}
+
+			mTitle = "TCP Client";
+			mConnected = false;
+			mLastError = TcpClientError::NONE;
+
+#ifdef WIN32
+			mWsaData = {};
+			mSocket = INVALID_SOCKET;
+#else
+			mSocket = -1;
+#endif
 		}
 
 		TCP_Client::~TCP_Client()
@@ -123,7 +134,7 @@ namespace Essentials
 			{
 				mLastError = TcpClientError::WINDOWS_SOCKET_OPEN_FAILURE;
 				WSACleanup();
-				return 1;
+				return -1;
 			}
 #else
 			mSocket = socket(AF_INET, SOCK_STREAM, 0);
@@ -131,7 +142,7 @@ namespace Essentials
 			if (mSocket == -1)
 			{
 				mLastError = TcpClientError::LINUX_SOCKET_OPEN_FAILURE;
-				return 1;
+				return -1;
 			}
 #endif
 			// Set up server details
@@ -155,9 +166,9 @@ namespace Essentials
 			return 0;
 		}
 
-		int8_t TCP_Client::Send(const char* buffer)
+		int8_t TCP_Client::Send(const char* buffer, const uint8_t size)
 		{
-			int sizeSent = send(mSocket, buffer, sizeof(buffer), 0);
+			int sizeSent = send(mSocket, buffer, size, 0);
 			if (sizeSent < 0)
 			{
 				mLastError = TcpClientError::SEND_FAILED;
@@ -167,12 +178,9 @@ namespace Essentials
 			return sizeSent;
 		}
 
-		int8_t TCP_Client::Receive(void* buffer)
+		int8_t TCP_Client::Receive(void* buffer, const uint8_t maxSize)
 		{
-			// Temp buffer to receive into
-			char buf[sizeof(buffer)];
-
-			int sizeRead = recv(mSocket, buf, sizeof(buf), 0);
+			int sizeRead = recv(mSocket, (char*)buffer, maxSize, 0);
 			if (sizeRead < 0)
 			{
 				mLastError = TcpClientError::READ_FAILED;
@@ -180,7 +188,6 @@ namespace Essentials
 			}
 
 			// Copy temp buffer into param buffer and return size read. 
-			buffer = buf;
 			return sizeRead;
 		}
 

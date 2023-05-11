@@ -126,13 +126,15 @@ namespace Essentials
 
 			/// <summary>Send data to a server</summary>
 			/// <param name="buffer"> -[in]- Buffer to be sent</param>
+			/// <param name="size"> -[in]- Size to be sent</param>
 			/// <returns>0+ if successful (number bytes sent), -1 if fails. Call TCP_Client::GetLastError to find out more.</returns>
-			int8_t Send(const char* buffer);
+			int8_t Send(const char* buffer, const uint8_t size);
 
 			/// <summary>Receive data from a server</summary>
 			/// <param name="buffer"> -[out]- Buffer to place received data into</param>
+			/// <param name="maxSize"> -[in]- Maximum number of bytes to be read</param>
 			/// <returns>0+ if successful (number bytes received), -1 if fails. Call TCP_Client::GetLastError to find out more.</returns>
-			int8_t Receive(void* buffer);
+			int8_t Receive(void* buffer, const uint8_t maxSize);
 
 			/// <summary>Closes a socket</summary>
 			void Close();
